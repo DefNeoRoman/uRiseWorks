@@ -5,10 +5,10 @@ public class Main {
         int ageMisha = 700;
         int ageVasya = 100;
         int ageVadim = 150;
-        int old;
-        int mid;
-        int young;
-      if (ageMisha > ageVasya && ageMisha > ageVadim){
+        int old = 0;
+        int mid =0 ;
+        int young =0;
+      if (ageMisha >= ageVasya && ageMisha >= ageVadim){
            old = ageMisha;
           if (ageVasya>ageVadim){
               mid = ageVasya;
@@ -18,7 +18,7 @@ public class Main {
               young = ageVasya;
           }
 
-      }else if(ageVasya > ageMisha && ageVasya > ageVadim){
+      }else if(ageVasya >= ageMisha && ageVasya >= ageVadim){
            old = ageVasya;
           if (ageMisha > ageVadim){
               mid = ageMisha;
