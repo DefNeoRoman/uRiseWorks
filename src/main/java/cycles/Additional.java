@@ -16,17 +16,11 @@ public class Additional {
                         int sum234 = j + k + l;
                         int sum124 = i + j + l;
                         int sum134 = i + k + l;
-                        int[] arr = {sum123, sum234, sum124, sum134};
-                        for (int q : arr) {
-                            for (int r : varSum) {
-                                if (q == r) {
-                                    System.out.println("Первый возраст " + i);
-                                    System.out.println("Второй возраст " + j);
-                                    System.out.println("Третий возраст " + k);
-                                    System.out.println("Четвертый возраст " + l);
-                                    System.out.println("Угадана сумма" + q);
-                                }
-                            }
+                        if(sum123 == 30 && sum234 == 32 && sum134 == 32 && sum124 == 35){
+                            System.out.println("Возраст 1 брата " + i);
+                            System.out.println("Возраст 2 брата " + j);
+                            System.out.println("Возраст 3 брата " + k);
+                            System.out.println("Возраст 4 брата " + l);
                         }
                     }
                 }
