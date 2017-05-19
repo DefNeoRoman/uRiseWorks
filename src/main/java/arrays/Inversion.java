@@ -2,7 +2,7 @@ package arrays;
 
 public class Inversion {
     public static void main(String[] args) {
-        String[] arr ={"красный","оранжевый","желтый","зеленый","голубой","синий","фиолетовый"};
+        String[] arr ={"красный","оранжевый","желтый","зеленый","голубой","синий","фиолетовый","ультрафиолетовый"};
 
       reverse(arr);
         for(String s :arr){
@@ -10,16 +10,14 @@ public class Inversion {
         }
 
     }
-    public static void reverse(String[] a){
+    public static void reverse(String[] arr){
 
-       int iter = a.length - a.length/2;
-        int comeBack = a.length-1;
-        for(int j =0; j<iter; j++){
-            String s1 = a[j];
-            String s2 = a[comeBack];
-            a[j] = s2;
-            a[comeBack] = s1;
-            comeBack--;
+
+        for(int j =0; j<arr.length/2; j++){
+            String tmp = arr[j];
+            arr[j] = arr[arr.length-1-j];
+            arr[arr.length-1-j] = tmp;
+
         }
 
     }
