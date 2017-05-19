@@ -16,13 +16,13 @@ public class Additional {
                         int sum234 = j + k + l;
                         int sum124 = i + j + l;
                         int sum134 = i + k + l;
-                        if(sum123 == 30 && sum234 == 32 && sum134 == 32 && sum124 == 35){
+                        if (sum123 == 30 && sum234 == 32 && sum134 == 32 && sum124 == 35) {
                             System.out.println("Возраст 1 брата " + i);
 
                             System.out.println("Возраст 2 брата " + j);
 
                             System.out.println("Возраст 3 брата " + k);
-                            
+
                             System.out.println("Возраст 4 брата " + l);
                         }
                     }
