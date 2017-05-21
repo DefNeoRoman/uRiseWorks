@@ -20,13 +20,18 @@ public class Cat implements Pet {
         this(1000 + (int) (Math.random() * 2000));
     }
     private  boolean isAlive(){
-        if(toString().equals("alive")){
+
+        if(toString().equals("alive") || toString().equals("sleep")){
             return true;
         }
         return false;
     }
     private boolean isAwake(){
-        return true;
+        if(!toString().equals("exploded") || !toString().equals("dead") || !toString().equals("sleep") || toString().equals("alive")){
+            return true;
+        }
+        return false;
+
     }
     @Override
     public void voice() {
@@ -50,6 +55,7 @@ public class Cat implements Pet {
 
     @Override
     public String toString() {
+
         String status = "alive";
         if(weight > maxWeight){
             status = "exploded";
