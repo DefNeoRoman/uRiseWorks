@@ -2,8 +2,8 @@ package boxContainerSpaceShip;
 
 public class Main {
     public static void main(String[] args) {
-       // int COUNT_OF_BOXES = Integer.parseInt(args[0]);
-        int COUNT_OF_BOXES = 1000;
+        int COUNT_OF_BOXES = Integer.parseInt(args[0]);
+
         int countInContainer = 0;
         int countInSpaceShip = 0;
         int spaceShips = 0;
