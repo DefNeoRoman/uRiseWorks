@@ -27,7 +27,7 @@ public class Cat implements Pet {
         return false;
     }
     private boolean isAwake(){
-        if(!toString().equals("exploded") || !toString().equals("dead") || !toString().equals("sleep") || toString().equals("alive")){
+        if(toString().equals("alive")){
             return true;
         }
         return false;
