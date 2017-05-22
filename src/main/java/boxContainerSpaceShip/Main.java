@@ -12,7 +12,7 @@ public class Main {
         int COUNT_OF_BOXES = 10000;
         int maxContainers = 11;
         int maxBoxes = 34;
-        
+
 
         for (int i = 0; i < COUNT_OF_BOXES; i++) {
 
