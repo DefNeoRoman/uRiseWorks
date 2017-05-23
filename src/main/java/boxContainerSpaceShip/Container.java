@@ -4,17 +4,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Container {
-    public Container() {
+    private int maxBoxes;
+    private Box[] boxes;
+    public Container(int count) {
+
+        this.maxBoxes = count;
+        this.boxes = new Box[maxBoxes];
     }
 
-    private List<Box> content = new ArrayList<>(34);
-   public void putBox(Box box){
-        content.add(box);
+    public Container() {
+        this(20+ (int)(Math.random()*30));
+    }
+
+    public void putBox(Box box){
+
    }
    public int getSize(){
-       return content.size();
+      return 1;
    }
    public void clearContent(){
-       content.clear();
+
    }
 }
