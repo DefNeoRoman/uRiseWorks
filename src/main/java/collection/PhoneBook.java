@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Пользователь on 24.05.2017.
@@ -22,46 +24,81 @@ import java.util.List;
 //чтобы все работало в режиме командной строки
 public class PhoneBook {
     private static List<Human> storage = new ArrayList<>();
+
+    static {
+        storage.add(new Human("Иванов", 123));
+        storage.add(new Human("Петров", 456));
+        storage.add(new Human("Сидоров", 678));
+        storage.add(new Human("Jones", 9110));
+        storage.add(new Human("Miller", 23456));
+    }
     public static void main(String[] args) {
 
         try ( BufferedReader br = new BufferedReader(new InputStreamReader(System.in))){
 
-            System.out.println("Введите команду для телефонного справочника:");
+
             while (true) {
+                System.out.println("Введите команду для телефонного справочника:");
                 String command = br.readLine();
                 if (command.toLowerCase().equals("exit")) {
+                    System.out.println("Выходим из телефонного справочника");
                     break;
                 }
                 if (command.toLowerCase().equals("list")){
-
+                    for(Human h: storage){
+                        System.out.println(h.toString());
+                    }
                 }
                 if (command.toLowerCase().equals("add")) {
                     while(true){
                         System.out.println("Введите фамилию");
                         String lastName = br.readLine();
                         System.out.println("Введите номер телефона");
-                        int phoneNumber = Integer.parseInt(br.readLine());
-                        if(lastName.matches("A-Z")){
+                        String phoneNumber = br.readLine();
+                        if(checkWithRegexp("^[A-Z|А-Я][a-z|а-я]{1,19}",lastName) && checkWithRegexp("^((8|\\+7)[\\- ]?)?(\\(?\\d{3}\\)?[\\- ]?)?[\\d\\- ]{7,10}$",phoneNumber)){
+                            //Зеленый свет для этих номеров
+//                            +79261234567
+//                            89261234567
+//                            79261234567
+//                                    +7 926 123 45 67
+//                            8(926)123-45-67
+//                            123-45-67
+//                            9261234567
+//                            79261234567
+//                            (495)1234567
+//                            (495) 123 45 67
+//                            89261234567
+//                            8-926-123-45-67
+//                            8 927 1234 234
+//                            8 927 12 12 888
+//                            8 927 12 555 12
+//                            8 927 123 8 123
                             System.out.println("Regular expression is right");
-                            Human human = new Human(lastName,phoneNumber);
+                            Human human = new Human(lastName,Integer.parseInt(phoneNumber));
                             storage.add(human);
+                            System.out.println("Добавлен человек");
                             break;
                         } else {
-                            System.out.println("не подошло");
+                            System.out.println("не подошло, попробуйте снова");
                         }
 
                     }
-
-
-
-
-
                 }if(command.toLowerCase().equals("search")){
-                    System.out.println("Введите фамилию, по которой будем искать");
-                    while (true){
 
+                    while (true){
+                        System.out.println("Введите фамилию, по которой будем искать");
+                        String searchName = br.readLine();
+                        for (Human h: storage){
+                            if(h.getName().equals(searchName)){
+                                System.out.println("Ваше имя найдено" + h.toString());
+
+                            }
+                        }
                     }
 
+                }
+                else {
+                    System.out.println("Такой команды нет, попробуйте снова");
                 }
 
             }
@@ -70,6 +107,13 @@ public class PhoneBook {
             e.printStackTrace();
         }
 
+    }
+    public static boolean checkWithRegexp(String patt, String s){
+        String pattern = patt;
+        String text = s;
+        Pattern p = Pattern.compile(pattern);
+        Matcher m = p.matcher(text);
+        return m.matches();
     }
 
 }
