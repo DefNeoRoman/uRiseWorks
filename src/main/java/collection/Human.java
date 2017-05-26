@@ -3,11 +3,11 @@ package collection;
 /**
  * Created by Пользователь on 24.05.2017.
  */
-public class Human {
+public class Human implements Comparable<Human>{
     private String name;
-    private int phoneNumber;
+    private long phoneNumber;
 
-    public Human(String name, int phoneNumber) {
+    public Human(String name, long phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
@@ -20,7 +20,7 @@ public class Human {
         this.name = name;
     }
 
-    public int getPhoneNumber() {
+    public long getPhoneNumber() {
         return phoneNumber;
     }
 
@@ -34,5 +34,10 @@ public class Human {
                 "name='" + name + '\'' +
                 ", phoneNumber=" + phoneNumber +
                 '}';
+    }
+
+    @Override
+    public int compareTo(Human o) {
+        return name.compareTo(o.getName());
     }
 }
