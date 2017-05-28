@@ -6,6 +6,7 @@ import java.util.List;
 public class Main {
     //В контейнере от 20 до 50 ящиков исправить
     //В этом же контейнере
+    //Object thinking
     public static void main(String[] args) {
        // int COUNT_OF_BOXES = Integer.parseInt(args[0]);
         List<SpaceShip> fleet = new ArrayList<>();

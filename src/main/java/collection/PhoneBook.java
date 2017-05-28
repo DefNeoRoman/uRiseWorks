@@ -32,7 +32,6 @@ public class PhoneBook {
     }
 
     public static void main(String[] args) {
-
         try (BufferedReader br = new BufferedReader(new InputStreamReader(System.in))) {
             while (true) {
                 System.out.println("Введите команду для телефонного справочника:");
@@ -119,7 +118,6 @@ public class PhoneBook {
             e.printStackTrace();
         }
     }
-
     public static boolean checkWithRegexp(String patt, String s) {
         String pattern = patt;
         String text = s;

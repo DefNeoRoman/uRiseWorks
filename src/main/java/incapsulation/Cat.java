@@ -1,6 +1,6 @@
 package incapsulation;
 
-import oop.*;
+
 
 public class Cat implements Pet {
 
@@ -103,6 +103,8 @@ public class Cat implements Pet {
     public void toilet() {
         if(!changeWeight(-(50 + (int)(Math.random()*100)))){
             System.out.println("Кот не может сделать это");
+        }else {
+            System.out.println("Кот сходил в туалет");
         }
 
     }
