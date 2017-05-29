@@ -14,7 +14,7 @@
             <version>4.12</version>
         </dependency>
     </dependencies>
-    <build>
+    <building>
         <finalName>uRiseWorks</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
@@ -40,5 +40,5 @@
                 <version>2.4</version>
             </plugin>
         </plugins>
-    </build>
+    </building>
 </project>

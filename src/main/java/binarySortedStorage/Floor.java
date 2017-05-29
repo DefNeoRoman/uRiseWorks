@@ -18,7 +18,7 @@ public class Floor {
 
     public Floor(int roomCount) {
         this.roomCount = roomCount;
-        rooms = new ArrayList<>(roomCount);
+        rooms = new ArrayList<Room>(roomCount);
     }
 
     public void add (Room room){

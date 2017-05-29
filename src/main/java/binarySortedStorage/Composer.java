@@ -8,15 +8,15 @@ import java.util.concurrent.Future;
 
 public class Composer {
     private final static int TP_DEPTH = Runtime.getRuntime().availableProcessors();
-    private Build build;
+    private Building building;
 
-    public Build getBuild() {
-        return build;
+    public Building getBuilding() {
+        return building;
     }
 
     public void build(int n){
-        int countOfFloors = (int)Math.sqrt(n);
-        build = new Build(countOfFloors);
+        int countOfFloors = (int)Math.sqrt(n); // Количество этажей
+        building = new Building(countOfFloors);
         // берем создаем комнаты и кладем в каждый этаж
         Floor currentfloor = null;
         for (int i = 0; i < n ; i++) {
@@ -31,20 +31,20 @@ public class Composer {
             }
 
              if(currentfloor.getSize() == countOfFloors){
-                build.addFloor(currentfloor);
+                building.addFloor(currentfloor);
                 currentfloor = null; //Присваивать null или также каждый элемент сделать null как в ArrayList
                 continue;
             }
 
         }
-        build.addFloor(currentfloor);
+        building.addFloor(currentfloor);
         System.out.println("Здание построено");
     }
-    public Build binarySort(Build build) throws Exception{
+    public Building binarySort(Building building) throws Exception{
         ExecutorService service = Executors.newFixedThreadPool(TP_DEPTH);
-        List<Floor> before = build.getFloors();
-        List<Room> currentRoomList = new ArrayList<>();
-        List<Future> lf = new ArrayList<>();
+        List<Floor> before = building.getFloors();
+        List<Room> currentRoomList = new ArrayList<Room>();
+        List<Future> lf = new ArrayList<Future>();
         for (Floor f: before){
             SortingTask st = new SortingTask(f);
            Future future = service.submit(st);
@@ -55,7 +55,7 @@ public class Composer {
         }
         int min;
         int index;
-        return new Build(2);
+        return new Building(2);
     }
 
 }

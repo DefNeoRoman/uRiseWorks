@@ -5,7 +5,7 @@ import com.sun.org.apache.xpath.internal.SourceTree;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Build {
+public class Building {
     private int countOfFloors;
     private List<Floor> floors;
 
@@ -13,9 +13,9 @@ public class Build {
         return floors;
     }
 
-    public Build(int countOfFloors) {
+    public Building(int countOfFloors) {
         this.countOfFloors = countOfFloors;
-        floors = new ArrayList<>(countOfFloors);
+        floors = new ArrayList<Floor>(countOfFloors);
     }
     public void addFloor(Floor floor){
         floors.add(floor);
