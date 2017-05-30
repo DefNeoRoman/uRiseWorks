@@ -10,6 +10,7 @@ public class Building {
     int numinCurCapacity = 0;
 
     public void addRoom(Room room){
+
         if(size == 0){
             Floor floor = new Floor(capacityFloors);
             floor.addRoom(room);
@@ -18,14 +19,16 @@ public class Building {
             size++;
 
         }else {
+            Floor floor;
             if(floors.get(size - 1).addRoom(room)){
                 return;
                 //System.out.println("added");
             }else{
+
                 if(numinCurCapacity < capacityFloors) {
-                    Floor floor = new Floor(capacityFloors);
+                   floor  = new Floor(capacityFloors);
                     floor.addRoom(room);
-                    floors.add(floor);
+                    addFloor(floor);
                     numinCurCapacity++;
                 }else{
                     numinCurCapacity = 0;

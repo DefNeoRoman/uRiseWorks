@@ -26,7 +26,7 @@ public class Floor {
         for (int i = 0; i < rooms.length; i++) {
             out +=  rooms[i] + " ";
         }
-        System.out.println(out);
+      
         return out;
     }
 }

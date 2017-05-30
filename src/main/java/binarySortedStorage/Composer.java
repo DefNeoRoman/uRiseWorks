@@ -1,5 +1,6 @@
 package binarySortedStorage;
 
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -8,37 +9,33 @@ import java.util.concurrent.Future;
 
 public class Composer {
     private final static int TP_DEPTH = Runtime.getRuntime().availableProcessors();
-    private Build build;
+    private Build build; //  Комнаты кладутся в этажи, этажи кладутся в здание
+    private int currentCountRooms = 1; // Число комнат в текущих этажах
+    //Увеличивается 1 2 3 4 5, то есть с шагом 1
+    private int generalCountRooms = 1; // Общее число комнат
+    private int generalCountFloors = 1;// Общее число этажей
+    private int currentRoom = 1;       //текущая комната
+    private Floor currentFloor;         //текущий этаж
 
     public Build getBuild() {
         return build;
     }
 
     public void build(int n){
-        int countOfFloors = (int)Math.sqrt(n);
-        build = new Build(countOfFloors);
-        // берем создаем комнаты и кладем в каждый этаж
-        Floor currentfloor = null;
-        for (int i = 0; i < n ; i++) {
-            Room room = new Room((int)(i + Math.random()*i)); // это просто формула из головы, чтобы потом сортировать можно было
-            if(currentfloor == null){
-                currentfloor = new Floor(countOfFloors);
-            }
-            if(!currentfloor.isThereSuchRoom(room)){
-                currentfloor.add(room);
-            }else {
-                i--;
-            }
-
-             if(currentfloor.getSize() == countOfFloors){
-                build.addFloor(currentfloor);
-                currentfloor = null; //Присваивать null или также каждый элемент сделать null как в ArrayList
-                continue;
+      generalCountRooms = n;
+        for (int i=0; i < generalCountRooms; i++ ){
+            Room room = new Room(i);
+            if(currentFloor == null){
+                currentFloor = new Floor(currentCountRooms);
+            } else if(currentFloor.getSize() == currentCountRooms){
+                build.addFloor(currentFloor);
+                currentFloor = null;
+                currentCountRooms++;
+            }else{
+                currentFloor.add(room);
             }
 
         }
-        build.addFloor(currentfloor);
-        System.out.println("Здание построено");
     }
     public Build binarySort(Build build) throws Exception{
         ExecutorService service = Executors.newFixedThreadPool(TP_DEPTH);
