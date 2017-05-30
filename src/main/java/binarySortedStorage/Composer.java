@@ -1,6 +1,5 @@
 package binarySortedStorage;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -12,45 +11,76 @@ public class Composer {
     private Build build; //  Комнаты кладутся в этажи, этажи кладутся в здание
     private int currentCountRooms = 1; // Число комнат в текущих этажах
     //Увеличивается 1 2 3 4 5, то есть с шагом 1
-    private int generalCountRooms = 1; // Общее число комнат
-    private int generalCountFloors = 1;// Общее число этажей
-    private int currentRoom = 1; //текущая комната
     private int numCurrentFloor = 0;
-    private Floor currentFloor;         //текущий этаж
 
     public Build getBuild() {
         return build;
     }
 
-    public void build(int n){
-    build = new Build();
-    currentFloor = new Floor(currentCountRooms);
-    // numCurrentFloor
-    // currentCountRooms
-
+    public void build(int n) {
+        build = new Build();
+        Floor currentFloor = new Floor(currentCountRooms);
         for (int i = 0; i < n; i++) {
-            Room room = new Room((int)(i + Math.random()*i));
-            if (numCurrentFloor == currentCountRooms){
+            Room room = new Room((int) (i + Math.random() * i));
+            if (numCurrentFloor == currentCountRooms) {
                 numCurrentFloor = 0;
                 currentCountRooms++;
                 currentFloor = new Floor(currentCountRooms);
-              }
-            if(currentFloor.getSize() < currentCountRooms){
+            }
+            if (currentFloor.getSize() < currentCountRooms) {
                 currentFloor.add(room);
-
-
-            }if (currentFloor.getSize()== currentCountRooms){
+            }
+            if (currentFloor.getSize() == currentCountRooms) {
                 build.addFloor(currentFloor);
                 currentFloor = new Floor(currentCountRooms);
                 numCurrentFloor++;
-
-              continue;
+                continue;
             }
         }
-
     }
-    public Build binarySort(Build build) throws Exception{
-       return new Build(2);
+
+    public Build binarySort(Build build) throws Exception {
+        Build resultBuild = new Build();
+        ExecutorService service = Executors.newFixedThreadPool(TP_DEPTH);
+        List<Future<List<Room>>> futures = new ArrayList<Future<List<Room>>>();
+        List<Floor> floorList = build.getFloors();
+        for (Floor floor : floorList) {
+            SortingTask sortingTask = new SortingTask(floor);
+            futures.add(service.submit(sortingTask));
+        }
+        Room minIndexRoom = null;
+        int currentIndexInFutures = 0;
+        int minIndexInFutures = 0;
+        List<Room> currentRoomList = new ArrayList<>();
+        while (true) {
+            if (futures.size() == 0){
+                break;
+            }
+            for (Future<List<Room>> future : futures) {
+                List<Room> currentRooms = future.get();
+                if (currentRooms.size() == 0) {
+                    futures.remove(future);
+                    break;
+                }
+
+                Room currentRoom = currentRooms.iterator().next();
+                if (minIndexRoom == null || currentRoom.getId() < minIndexRoom.getId()) {
+                    minIndexRoom = currentRoom;
+                    minIndexInFutures = currentIndexInFutures;
+                    currentIndexInFutures++;
+                    continue;
+                }
+                currentIndexInFutures++;
+            }
+
+            resultBuild.addRoom(minIndexRoom);
+            minIndexRoom = null;
+
+
+
+        }
+
+        return resultBuild;
     }
 
 }

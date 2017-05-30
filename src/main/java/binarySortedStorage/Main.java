@@ -1,10 +1,11 @@
 package binarySortedStorage;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         Composer composer = new Composer();
-        composer.build(115);
+        composer.build(5);
         Build build = composer.getBuild();
-        build.whatAppartmentsExist();
+        Build build2 = composer.binarySort(build);
+        build2.whatAppartmentsExist();
     }
 }
