@@ -13,6 +13,10 @@ public class Build {
         return floors;
     }
 
+    public Build() {
+        floors = new ArrayList<>();
+    }
+
     public Build(int countOfFloors) {
         this.countOfFloors = countOfFloors;
         floors = new ArrayList<>(countOfFloors);

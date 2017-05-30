@@ -14,7 +14,8 @@ public class Composer {
     //Увеличивается 1 2 3 4 5, то есть с шагом 1
     private int generalCountRooms = 1; // Общее число комнат
     private int generalCountFloors = 1;// Общее число этажей
-    private int currentRoom = 1;       //текущая комната
+    private int currentRoom = 1; //текущая комната
+    private int numCurrentFloor = 0;
     private Floor currentFloor;         //текущий этаж
 
     public Build getBuild() {
@@ -22,37 +23,34 @@ public class Composer {
     }
 
     public void build(int n){
-      generalCountRooms = n;
-        for (int i=0; i < generalCountRooms; i++ ){
-            Room room = new Room(i);
-            if(currentFloor == null){
-                currentFloor = new Floor(currentCountRooms);
-            } else if(currentFloor.getSize() == currentCountRooms){
-                build.addFloor(currentFloor);
-                currentFloor = null;
-                currentCountRooms++;
-            }else{
-                currentFloor.add(room);
-            }
+    build = new Build();
+    currentFloor = new Floor(currentCountRooms);
+    // numCurrentFloor
+    // currentCountRooms
 
+        for (int i = 0; i < n; i++) {
+            Room room = new Room((int)(i + Math.random()*i));
+            if (numCurrentFloor == currentCountRooms){
+                numCurrentFloor = 0;
+                currentCountRooms++;
+                currentFloor = new Floor(currentCountRooms);
+              }
+            if(currentFloor.getSize() < currentCountRooms){
+                currentFloor.add(room);
+
+
+            }if (currentFloor.getSize()== currentCountRooms){
+                build.addFloor(currentFloor);
+                currentFloor = new Floor(currentCountRooms);
+                numCurrentFloor++;
+
+              continue;
+            }
         }
+
     }
     public Build binarySort(Build build) throws Exception{
-        ExecutorService service = Executors.newFixedThreadPool(TP_DEPTH);
-        List<Floor> before = build.getFloors();
-        List<Room> currentRoomList = new ArrayList<>();
-        List<Future> lf = new ArrayList<>();
-        for (Floor f: before){
-            SortingTask st = new SortingTask(f);
-           Future future = service.submit(st);
-            lf.add(future);
-        }
-        for(Future f: lf){
-
-        }
-        int min;
-        int index;
-        return new Build(2);
+       return new Build(2);
     }
 
 }
