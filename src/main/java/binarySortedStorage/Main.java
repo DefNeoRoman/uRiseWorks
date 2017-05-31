@@ -9,14 +9,14 @@ public class Main {
             System.out.println("how many rooms will be in the building?");
             int rooms = Integer.parseInt(bufferedReader.readLine());
             Floor searchFloor = null;
+            Composer composer = new Composer();
+            composer.build(rooms);
+            Build build = composer.getBuild();
+            Build build2 = composer.binarySort(build);
+            build2.whatAppartmentsExist();
             while (searchFloor == null) {
                 System.out.println("What room we will looking for?");
                 int whatRoom = Integer.parseInt(bufferedReader.readLine());
-                Composer composer = new Composer();
-                composer.build(rooms);
-                Build build = composer.getBuild();
-                Build build2 = composer.binarySort(build);
-                build2.whatAppartmentsExist();
                 searchFloor = Elevator.whatFloorThisRoom(build2, whatRoom);
             }
             System.out.println("This Room is in " + searchFloor.getId() + " floor");
