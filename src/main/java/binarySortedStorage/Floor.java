@@ -6,7 +6,7 @@ import java.util.List;
 public class Floor {
     private int roomCount;
     private List<Room> rooms;
-    private int id = (int)(Math.random()+4);
+    private int id;
 
     public int getId() {
         return id;
@@ -16,21 +16,22 @@ public class Floor {
         this.id = id;
     }
 
+    public Floor() {
+    }
+
     public Floor(int roomCount) {
         this.roomCount = roomCount;
         rooms = new ArrayList<>(roomCount);
     }
 
     public void add (Room room){
-       if(!isThereSuchRoom(room)) {
+
            rooms.add(room);
 
-       }else{
-           room = new Room((int)(id + Math.random()*id));
-           add(room);
-       }
 
     }
+
+
     public int getSize(){
         return rooms.size();
     }

@@ -12,6 +12,7 @@ public class Composer {
     private int currentCountRooms = 1; // Число комнат в текущих этажах
     //Увеличивается 1 2 3 4 5, то есть с шагом 1
     private int numCurrentFloor = 0;
+    private List<Room> listOfRooms = new ArrayList<>();
 
     public Build getBuild() {
         return build;
@@ -20,8 +21,17 @@ public class Composer {
     public void build(int n) {
         build = new Build();
         Floor currentFloor = new Floor(currentCountRooms);
+        for (int l = 0; l < n ; l++) {
+            Room room1 = new Room((int) (l + Math.random() * l*l));  // Это просто формула из головы
+          if(listOfRooms.contains(room1)){
+              l--;
+          }else{
+              listOfRooms.add(room1);
+          }
+
+        }
         for (int i = 0; i < n; i++) {
-            Room room = new Room((int) (i + Math.random() * i));
+            Room room = listOfRooms.get(i);
             if (numCurrentFloor == currentCountRooms) {
                 numCurrentFloor = 0;
                 currentCountRooms++;
@@ -40,43 +50,47 @@ public class Composer {
     }
 
     public Build binarySort(Build build) throws Exception {
-        Build resultBuild = new Build();
-        ExecutorService service = Executors.newFixedThreadPool(TP_DEPTH);
-        List<Future<List<Room>>> futures = new ArrayList<Future<List<Room>>>();
+       Build resultBuild = new Build();
         List<Floor> floorList = build.getFloors();
-        for (Floor floor : floorList) {
+        List<Future<List<Room>>> futures = new ArrayList<>();
+        ExecutorService service = Executors.newFixedThreadPool(TP_DEPTH);
+        for(Floor floor: floorList){
             SortingTask sortingTask = new SortingTask(floor);
-            futures.add(service.submit(sortingTask));
+            Future future = service.submit(sortingTask);
+            futures.add(future);
         }
-        Room minIndexRoom = null;
-        int currentIndexInFutures = 0;
-        int minIndexInFutures = 0;
-        List<Room> currentRoomList = new ArrayList<>();
-        while (true) {
-            if (futures.size() == 0){
+        Room minRoom = null;
+        int minIndexFuture = 0;
+        for (int i = 0; i <futures.size(); i++) {
+            if(futures.size() == 0){
                 break;
             }
-            for (Future<List<Room>> future : futures) {
-                List<Room> currentRooms = future.get();
-                if (currentRooms.size() == 0) {
-                    futures.remove(future);
-                    break;
-                }
-
-                Room currentRoom = currentRooms.iterator().next();
-                if (minIndexRoom == null || currentRoom.getId() < minIndexRoom.getId()) {
-                    minIndexRoom = currentRoom;
-                    minIndexInFutures = currentIndexInFutures;
-                    currentIndexInFutures++;
-                    continue;
-                }
-                currentIndexInFutures++;
+            List<Room> currentRoomList = futures.get(i).get();
+            Room currentRoom = currentRoomList.get(0);
+            if(minRoom == null || currentRoom.getId() < minRoom.getId()){
+                minRoom = currentRoom;
+                minIndexFuture = i;
             }
+            if(i == futures.size()-1){
+                resultBuild.addRoom(minRoom);
 
-            resultBuild.addRoom(minIndexRoom);
-            minIndexRoom = null;
+                    List<Room> rooms = futures.get(minIndexFuture).get();
+                    if(rooms.size() != 0){
+                        minRoom=null;
+                        rooms.remove(0);
+                        i=-1;
+                    }if(rooms.size()==0){
+                        futures.remove(minIndexFuture);
+                        i=-1;
+                        continue;
+                    }
 
 
+
+            }if(i < futures.size()){
+
+                continue;
+            }
 
         }
 

@@ -3,6 +3,9 @@ package binarySortedStorage;
 public class Room implements Comparable<Room> {
     private int id;
 
+    public Room() {
+    }
+
     public Room(int id) {
         this.id = id;
     }
@@ -16,6 +19,22 @@ public class Room implements Comparable<Room> {
         return "Room{" +
                 "id=" + id +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Room room = (Room) o;
+
+        return id == room.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
     }
 
     @Override
