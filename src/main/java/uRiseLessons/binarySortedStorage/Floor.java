@@ -24,24 +24,27 @@ public class Floor {
         rooms = new ArrayList<>(roomCount);
     }
 
-    public void add (Room room){
-
-           rooms.add(room);
-
-
+    public Floor(int roomCount, int id) {
+        rooms = new ArrayList<>(roomCount);
+        this.roomCount = roomCount;
+        this.id = id;
     }
 
+    public void add(Room room) {
+        rooms.add(room);
+    }
 
-    public int getSize(){
+    public int getSize() {
         return rooms.size();
     }
-    public List<Room> getRooms(){
+
+    public List<Room> getRooms() {
         return rooms;
     }
-    public boolean isThereSuchRoom(Room room){
-        for (Room r:rooms){
-            if(room.getId() == r.getId()){
 
+    public boolean isThereSuchRoom(Room room) {
+        for (Room r : rooms) {
+            if (room.getId() == r.getId()) {
                 return true;
             }
         }

@@ -19,16 +19,16 @@ public class SortingTask implements Callable<List<Room>> {
         int answer = 0;
         int min = -1;
         int index = -1;
-        while(true){
-            if (roomsBefore.size() == 0){
+        while (true) {
+            if (roomsBefore.size() == 0) {
                 break;
             }
-            for (int i = 0; i <roomsBefore.size() ; i++) {
+            for (int i = 0; i < roomsBefore.size(); i++) {
                 Room room = roomsBefore.get(i);
-                if(min == -1){
+                if (min == -1) {
                     min = room.getId();
                     index = i;
-                }else if (room.getId() < min){
+                } else if (room.getId() < min) {
                     min = room.getId();
                     index = i;
                 }
