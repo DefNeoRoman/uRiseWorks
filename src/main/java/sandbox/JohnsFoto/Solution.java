@@ -31,9 +31,7 @@ package sandbox.JohnsFoto;
 //        "f.png, Warsaw, 2016-01-02 10:55:32\n" +
 //        "g.jpg, Warsaw, 2016-02-29 22:13:11";
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -75,10 +73,35 @@ public class Solution {
             }
         });
       List<Foto> listFoto = new ArrayList<>();
+      int counter;
+      Map<String,Integer> cityEntries = new HashMap<>();
       for (int i=0; i<cities.size(); i++){
-          listFoto.add(new Foto(names.get(i),dates.get(i),cities.get(i)));
+
+        listFoto.add(new Foto(names.get(i),dates.get(i),cities.get(i)));
       }
-        System.out.println(listFoto);
+        Collections.sort(listFoto);
+        List<Foto> listfoto2 = new ArrayList<>();
+        for (int i =0; i< listFoto.size();i++){
+            Foto currentFoto = listFoto.get(i);
+            if(cityEntries.containsKey(currentFoto.getCity())){
+                counter = cityEntries.get(currentFoto.getCity());
+                cityEntries.put(cities.get(i),++counter);
+
+            }else{
+                cityEntries.put(cities.get(i),1);
+            }
+
+            int id;
+            if(cityEntries.get(currentFoto.getCity()) == null){
+                id = 1;
+            }else{
+                id = cityEntries.get(currentFoto.getCity());
+            }
+            listfoto2.add(new Foto(id,currentFoto.getName(),currentFoto.getWasCreated(),currentFoto.getCity()));
+        }
+
+        System.out.println(listfoto2.toString());
+        System.out.println(cityEntries.toString());
         return "";
     }
   }
