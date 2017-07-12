@@ -1,6 +1,7 @@
 package sandbox.elevatorSolution;
 
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 //A - это массив веса каждого человека
 //B - это целевой этаж каждого человека
@@ -22,44 +23,65 @@ public class Solution {
         int[] weights = {40, 40, 100, 80, 20, 200,150};
         int[] floors = {3, 3, 2, 2, 3, 4,7};
         int countFloors = 3;
-        int capacityElevator = 3;
+        int capacityElevator = 2;
         int weightLimit = 200;
         Solution solution = new Solution();
         System.out.println(solution.solution(weights, floors, countFloors, capacityElevator, weightLimit));
     }
     public int solution(int[] A, int[] B, int M, int X, int Y) {
-        int summaryWeight = 0;
+        if (M == 0 || X == 0 || Y == 0 || A == null || B == null || A.length == 0 || B.length == 0) {
+            return 0;
+        }
+        int totalWeight = 0;
+        int totalHumans = 0;
+        int start = 0;
+        int end = 0;
         int counter = 0;
-        int humans = 0;
-        int currentFloor = 0;
-        int elevatorStops = 0;
-       while(summaryWeight<=Y && humans < X+1 && (counter < B.length)){
-           humans++;
-           summaryWeight += A[counter];
-           currentFloor = B[counter];
-           if(summaryWeight > Y){
-               summaryWeight = 0;
-               humans = 0;
-               elevatorStops++;
+        int totalResult = 0;
+        while(totalWeight < Y && totalHumans <= X){
+           totalWeight += A[counter];
+           totalHumans ++;
 
-               counter++;
-
-           } else if(currentFloor != B[counter]){
-               elevatorStops++;
-               counter++;
-           }else{
-               counter++;
+           if(totalWeight >=Y || totalHumans == X){
+               end = counter;
+               start = end - totalHumans +1;
+               Elevator elevator = new Elevator(B,start,end);// до какой позиции дошли
+               totalHumans = 0;
+               totalWeight = 0;
+               totalResult += elevator.getResult();
+               //создаем лифт и едем
            }
 
-           if(humans == X){
-               humans = 0;
-               summaryWeight = 0;
-               elevatorStops++;
+            counter++;
+           if(counter == A.length-1){
+               break;
            }
+        }
+       return totalResult;
 
-       }
-        return elevatorStops;
     }
+    public class Elevator{
+        private int start;
+        private int end;
 
+        private int [] floors;
+
+        public Elevator(int[] floors, int start,int end) {
+            this.floors = floors;
+            this.start = start;
+            this.end = end;
+        }
+        public int getResult(){
+            int result = 0;
+            int currentFloor = 0;
+            for(int i=start; i<end+1; i++){
+                if(currentFloor != floors[i]){
+                    result++;
+                }
+                currentFloor = floors[i];
+            }
+            return result;
+        }
+    }
 }
 
