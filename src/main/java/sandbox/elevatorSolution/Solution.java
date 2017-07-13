@@ -44,11 +44,11 @@ public class Solution {
            if(totalWeight >=Y || totalHumans == X || counter == A.length-1){
                end = counter;
                start = end - totalHumans +1;
-               Elevator elevator = new Elevator(B,start,end);// до какой позиции дошли
+               Elevator elevator = new Elevator(B,start,end);
                totalHumans = 0;
                totalWeight = 0;
                totalResult += elevator.getResult();
-               //создаем лифт и едем
+
                if(counter == A.length-1){
                    break;
                }
