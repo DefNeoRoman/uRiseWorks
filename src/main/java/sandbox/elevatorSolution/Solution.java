@@ -41,8 +41,7 @@ public class Solution {
         while(totalWeight < Y && totalHumans <= X){
            totalWeight += A[counter];
            totalHumans ++;
-
-           if(totalWeight >=Y || totalHumans == X){
+           if(totalWeight >=Y || totalHumans == X || counter == A.length-1){
                end = counter;
                start = end - totalHumans +1;
                Elevator elevator = new Elevator(B,start,end);// до какой позиции дошли
@@ -50,12 +49,13 @@ public class Solution {
                totalWeight = 0;
                totalResult += elevator.getResult();
                //создаем лифт и едем
+               if(counter == A.length-1){
+                   break;
+               }
            }
 
             counter++;
-           if(counter == A.length-1){
-               break;
-           }
+
         }
        return totalResult;
 
@@ -80,6 +80,7 @@ public class Solution {
                 }
                 currentFloor = floors[i];
             }
+            result++; //Когда идем за людьми еще то это тоже остановка на первом этаже
             return result;
         }
     }
