@@ -1,5 +1,8 @@
 package answersToInterview.teleoffice;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
+import sun.util.resources.cldr.lag.LocaleNames_lag;
+
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -32,13 +35,8 @@ public class Main {
                 "1.01.2017 15:00 :: 3.01.2017 16:35\n" +// 49 12
                 "\n" +
                 "1.01.2017 15:30 :: 3.01.2017 16:35";   // 49 13
-
-
-
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
-
-
-        String[] intermediate = s.split("\n\n");
+       String[] intermediate = s.split("\n\n");
         List<String> starts = new ArrayList<>();
         List<String> ends = new ArrayList<>();
         for(int j=0; j<intermediate.length; j++){
@@ -48,10 +46,26 @@ public class Main {
         }
         Map<Integer,Integer> interResultMap = new HashMap<>();
        List<Map<Integer,Integer>> listOfResultMap = new ArrayList<>();
-        List<String> starts2 = stringHelper(starts);
-        List<String> ends2 = stringHelper(ends);
-        for(int k = 0; k < starts2.size(); k++){
+       List<String> starts2 = stringHelper(starts);
+       List<String> ends2 = stringHelper(ends);
+       LocalDateTime firstStart = LocalDateTime.parse(starts2.get(0), formatter);
+       Calendar calendar;
+       calendar = Calendar.getInstance();
+       calendar.clear();
+       calendar.set(Calendar.YEAR, firstStart.getYear());
+       calendar.set(Calendar.MONTH, firstStart.getMonth().getValue());
+       int cnt = calendar.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+       for(int k = 0; k < starts2.size(); k++){
             LocalDateTime start = LocalDateTime.parse(starts2.get(k), formatter);
+            if(k==starts2.size()-1){
+                listOfResultMap.add(interResultMap);
+                break;
+            }
+           LocalDate afterStart = LocalDateTime.parse(starts2.get(k+1), formatter).toLocalDate();
+           if((!(start.toLocalDate().equals(afterStart)))){
+               listOfResultMap.add(interResultMap);
+           }
             if(start.getMinute() != 0){
                 continue;
             }
@@ -60,7 +74,21 @@ public class Main {
             int resHour = end.getHour() - start.getHour();
             int result = resDay*24 + resHour;
             interResultMap.put(k,result);
-            
+
+
+        }
+       interResultMap.keySet().forEach(u->{
+           System.out.print(u+ " ");
+       });
+       System.out.println();
+       for(int g = 0; g < listOfResultMap.size(); g++){
+            LocalDate ld = firstStart.plusDays(g).toLocalDate();
+            Map<Integer,Integer> resMap = listOfResultMap.get(g);
+            System.out.println(ld.toString());
+            for (int i =0; i < resMap.size(); i++){
+                System.out.print(resMap.get(i) + " ");
+            }
+
         }
      }
 
