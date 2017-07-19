@@ -1,8 +1,4 @@
 package answersToInterview.teleoffice;
-
-import com.sun.org.apache.xpath.internal.SourceTree;
-import sun.util.resources.cldr.lag.LocaleNames_lag;
-
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -45,7 +41,7 @@ public class Main {
             ends.add(inter2[1]);
         }
         Map<Integer,Integer> interResultMap = new HashMap<>();
-       List<Map<Integer,Integer>> listOfResultMap = new ArrayList<>();
+       List<Map<Integer,String>> listOfResultMap = new ArrayList<>();
        List<String> starts2 = stringHelper(starts);
        List<String> ends2 = stringHelper(ends);
        LocalDateTime firstStart = LocalDateTime.parse(starts2.get(0), formatter);
@@ -59,12 +55,14 @@ public class Main {
        for(int k = 0; k < starts2.size(); k++){
             LocalDateTime start = LocalDateTime.parse(starts2.get(k), formatter);
             if(k==starts2.size()-1){
-                listOfResultMap.add(interResultMap);
+
+                listOfResultMap.add(fullingMap(interResultMap));
+                interResultMap.clear();
                 break;
             }
            LocalDate afterStart = LocalDateTime.parse(starts2.get(k+1), formatter).toLocalDate();
            if((!(start.toLocalDate().equals(afterStart)))){
-               listOfResultMap.add(interResultMap);
+               listOfResultMap.add(fullingMap(interResultMap));
            }
             if(start.getMinute() != 0){
                 continue;
@@ -77,17 +75,19 @@ public class Main {
 
 
         }
-       interResultMap.keySet().forEach(u->{
-           System.out.print(u+ " ");
-       });
+        System.out.print("    :::    ");
+       for(int i =0; i<24; i++){
+           System.out.print(i+"  :: ");
+       }
        System.out.println();
        for(int g = 0; g < listOfResultMap.size(); g++){
             LocalDate ld = firstStart.plusDays(g).toLocalDate();
-            Map<Integer,Integer> resMap = listOfResultMap.get(g);
-            System.out.println(ld.toString());
-            for (int i =0; i < resMap.size(); i++){
-                System.out.print(resMap.get(i) + " ");
-            }
+            Map<Integer,String> resMap = listOfResultMap.get(g);
+            System.out.print(ld.toString()+" ");
+
+           for (Map.Entry<Integer, String> entry : resMap.entrySet()) {
+               System.out.print(entry.getValue() + " :: ");
+           }
 
         }
      }
@@ -104,5 +104,17 @@ public class Main {
             }
         }
         return result;
+    }
+    public static Map<Integer,String> fullingMap(Map<Integer,Integer> workMap){
+       Set setOfKeys = workMap.keySet();
+       Map<Integer,String> newMap = new HashMap<>();
+       for(int i=0; i<24; i++){
+           if(!setOfKeys.contains(i)){
+               newMap.put(i,"-");
+           }else{
+               newMap.put(i,workMap.get(i).toString());
+           }
+       }
+       return newMap;
     }
 }
