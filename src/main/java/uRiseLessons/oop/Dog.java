@@ -1,15 +1,23 @@
 package uRiseLessons.oop;
 
 public class Dog extends Pet {
-
     public Dog() {
+    }
 
-        setWeight(1000 + (int)(Math.random()*4000));
+    @Override
+    public int hashCode() {// hashcode посмотреть реализацию
+        // реализация hashcode
+        // память в java
+        return super.hashCode();
+    }
 
+    @Override// правильное реализация equals и hashcode
+    public boolean equals(Object obj) {
+        return super.equals(obj);
     }
 
     @Override
     String voice() {
-        return "гав";
+        return null;
     }
 }
